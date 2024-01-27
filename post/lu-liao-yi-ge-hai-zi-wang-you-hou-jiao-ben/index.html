@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>撸了一个海子网油猴脚本 | 中原之星★记录西皮星</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://page.cpstar.cn/favicon.ico?v=1706346077683">
+<link rel="stylesheet" href="https://page.cpstar.cn/styles/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="海子铁路社区的部分老图片可能是升级调整过程中没有正确加载，写一个脚本正确加载
+
+海子铁路社区的部分老图片，在当年为了节省服务器空间，迁移到了外部环境。后来更换了运维人员，同时外部环境到期了，于是就回迁。可能回迁之后，配置没有完全跟上，导致部..." />
+    <meta name="keywords" content="干活,车迷" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://page.cpstar.cn">
+        <img src="https://page.cpstar.cn/images/avatar.png?v=1706346077683" class="site-logo">
+        <h1 class="site-title">中原之星★记录西皮星</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/VZr6i90oH/" class="site-nav">
+            迷火车
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="site-nav">
+            迷代码
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/5_fCQ8_55/" class="site-nav">
+            迷星空
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="site-nav">
+            迷实地
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/cpstar/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      记录Central Plain Star
+    </div>
+    <div class="site-footer">
+      All rights with CPStar
+Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br/>
+<a href="http://www.beian.miit.gov.cn/">京ICP备20007959号</a> | <a class="rss" href="https://page.cpstar.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">撸了一个海子网油猴脚本</h2>
+            <div class="post-date">2023-08-22</div>
+            
+              <div class="feature-container" style="background-image: url('https://page.cpstar.cn/post-images/lu-liao-yi-ge-hai-zi-wang-you-hou-jiao-ben.jfif')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>海子铁路社区的部分老图片可能是升级调整过程中没有正确加载，写一个脚本正确加载</p>
+<!-- more -->
+<p>海子铁路社区的部分老图片，在当年为了节省服务器空间，迁移到了外部环境。后来更换了运维人员，同时外部环境到期了，于是就回迁。可能回迁之后，配置没有完全跟上，导致部分图片无法显示。现在也不知道运维人员还处理不。</p>
+<p>反正我手头上还有当年留存的一些备份，那就正好撸一个脚本，替换到自己配置的网站路径上，实现图片的显示。</p>
+<p>当年那些文件附件比较大，大概百十来G——当然在今天开来都是小菜，我这边的存档也需要一点一点慢慢解压缩。凑合来吧</p>
+<p>以下是代码，会油猴的自己玩吧。看内容其实也知道了是要干啥的。😇</p>
+<pre><code class="language-javascript">// ==UserScript==
+// @name         hasea-img
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  display some old pics of hasea
+// @author       CPStar
+// @match        http://bbs.hasea.com/*
+// @grant        unsafeWindow
+// @require      https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    $(&quot;img[src^='data/attachment/forum/lbupfile/']&quot;).each(function(){
+        let $this = $(this);
+        let src = $(this).attr(&quot;src&quot;);
+        $this.attr(&quot;src&quot;, &quot;http://hasea.cpstar.cn/lbupfile/&quot; + src.substr(31,1) + &quot;/&quot; + src.substr(32,1) + &quot;/&quot; + src.substr(31));
+    });
+
+    $(&quot;img[file^='data/attachment/forum/lbupfile/']&quot;).each(function(){
+        let $this = $(this);
+        let src = $(this).attr(&quot;file&quot;);
+        $this.attr(&quot;file&quot;, &quot;http://hasea.cpstar.cn/lbupfile/&quot; + src.substr(31,1) + &quot;/&quot; + src.substr(32,1) + &quot;/&quot; + src.substr(31));
+    });
+
+    $(&quot;img[src^='data/attachment/forum/forumid_']&quot;).each(function(){
+        let $this = $(this);
+        let src = $(this).attr(&quot;src&quot;);
+        $this.attr(&quot;src&quot;, &quot;http://hasea.cpstar.cn/forumid_&quot; + src.substr(30));
+    });
+
+    $(&quot;img[file^='data/attachment/forum/forumid_']&quot;).each(function(){
+        let $this = $(this);
+        let src = $(this).attr(&quot;file&quot;);
+        $this.attr(&quot;file&quot;, &quot;http://hasea.cpstar.cn/forumid_&quot; + src.substr(30));
+    });
+
+})();
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="tag">
+                    干活
+                  </a>
+                
+                  <a href="https://page.cpstar.cn/tag/VZr6i90oH/" class="tag">
+                    车迷
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://page.cpstar.cn/post/xue-xi-tan-tao-you-guan-nian-qing-ren-di-yi-tai-dian-ying-ji-fx30-ying-dang-zhi-dao-de/">
+                  <h3 class="post-title">
+                    有关年轻人第一台电影机FX30应当知道的
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
