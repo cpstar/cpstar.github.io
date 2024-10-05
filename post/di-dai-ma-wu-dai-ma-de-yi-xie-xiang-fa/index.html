@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>低代码/无代码的一些想法 | 中原之星★记录西皮星</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://page.cpstar.cn/favicon.ico?v=1728103215812">
+<link rel="stylesheet" href="https://page.cpstar.cn/styles/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="逛V站看到一篇帖子讨论低代码/无代码跟程序员的关系，大概想了想现在自己正在干的事情
+
+帖子缘起在这里，无码和低码会抢走程序员的工作吗？，楼主还写了一篇博无代码和低代码是什么？会抢走程序员的工作吗？，最后总结大概是一切还好，但是更多地是站在程..." />
+    <meta name="keywords" content="干活,码农,想法" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://page.cpstar.cn">
+        <img src="https://page.cpstar.cn/images/avatar.png?v=1728103215812" class="site-logo">
+        <h1 class="site-title">中原之星★记录西皮星</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/VZr6i90oH/" class="site-nav">
+            迷火车
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="site-nav">
+            迷代码
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/5_fCQ8_55/" class="site-nav">
+            迷星空
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="site-nav">
+            迷实地
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/cpstar/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      记录Central Plain Star
+    </div>
+    <div class="site-footer">
+      All rights with CPStar
+Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br/>
+<a href="http://www.beian.miit.gov.cn/">京ICP备20007959号</a> | <a class="rss" href="https://page.cpstar.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">低代码/无代码的一些想法</h2>
+            <div class="post-date">2020-07-26</div>
+            
+              <div class="feature-container" style="background-image: url('https://page.cpstar.cn/post-images/di-dai-ma-wu-dai-ma-de-yi-xie-xiang-fa.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>逛V站看到一篇帖子讨论低代码/无代码跟程序员的关系，大概想了想现在自己正在干的事情</p>
+<!-- more -->
+<p>帖子缘起在这里，<a href="https://www.v2ex.com/t/692949">无码和低码会抢走程序员的工作吗？</a>，楼主还写了一篇博<a href="https://kalasearch.cn/blog/no-code-low-code-affect-programmers/">无代码和低代码是什么？会抢走程序员的工作吗？</a>，最后总结大概是一切还好，但是更多地是站在程序员角度来探讨低代码/无代码这个事情的。</p>
+<p>当然，如果仅站在码农的角度讲这个事情，到底是直接写各种function、for、if-else，还是使用工具低代码/无代码工具，其最终目的是没有变化的——实现需求，更直接的一句话——实现项目经理的要求。那这就无所谓到底怎么实现了，有没有代码那是你码农的事情，用我的老师的一句话“甭管用什么东西，就算是用💩堆出来，只要能用就行”。</p>
+<p>但是，想想项目经理是给谁干活的，码农写出来的东西是为谁服务的？消费级市场暂且不说，如果是企业级市场，大抵是为了实现甲方的某个需求。一旦上升到甲方需求，那低代码/无代码这个事情，好像就不单单是码农的事情了。</p>
+<p>首先，甲方乙方，谁最懂业务本身，那肯定是甲方自己啊。传统的软件工程，绝对存在着巨大的信息黑洞，甲方想做一个秋千，但描述成了梯子，最后树都有可能被砍掉。项目失败，基本上可以算是大概率事件了。<br>
+<img src="https://page.cpstar.cn/post-images/1595731402597.jpg" alt="" loading="lazy"><br>
+其次，为了解决信息黑洞问题，那甲方自己亲自干呗，那不就是各个搞信息中心、技术中心、研发中心？那如果你是一个高科技企业，主营方向或者说主要业务支撑就是高技术，那养这么一个团队，没有毛病。可你本身要是搞别的呢？是不是不务正业了呢？<br>
+再次，设立了信息中心、技术中心、研发中心，那事实上还是在内部形成了甲方乙方的关系，换了汤了没有换药。<br>
+最后，甲方负责业务的应当亲自下场，自力更生、丰衣足食，why，no one knows his business better than he does。想搞秋千？去吧，兄弟，自己搞。可是写代码太难了，怎么办，低代码/无代码降低开发门槛啊亲。</p>
+<p>那么，通过良好的低代码/无代码工具，让业务人员直接参与到建设中，完成自己的需求。而且最重要的，在这个过程中，业务人员如果要完成自己需求的建设，势必要仔细想明白自己要什么。这样就直接打破了传统软件工程中失败的核心点：甲方说不清。其实这就可以归纳为：让业务人员成为产品经理，设计自己的产品。</p>
+<p>于是，工具的选用便极其关键，好用的工具会形成正反馈，而不好用的工具则会直接否掉整个命题。对于不同的行业、针对不同的业务，需要客观、科学、准确地分析其理论模型，或者寻找恰当的工具，或者构建相应的工具。</p>
+<p>这么想一通之后我们再看，低代码/无代码，是说给谁听呢？</p>
+<p><em>本文图片来自网络搜索，借用使用，侵权将删除</em></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="tag">
+                    干活
+                  </a>
+                
+                  <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="tag">
+                    码农
+                  </a>
+                
+                  <a href="https://page.cpstar.cn/tag/5_fCQ8_55/" class="tag">
+                    想法
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://page.cpstar.cn/post/xiao-lu-di-xia-shi-ji-you-xian-de-zi-dai-shu-xing-me/">
+                  <h3 class="post-title">
+                    效率低下，是既有线的自带属性么？
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

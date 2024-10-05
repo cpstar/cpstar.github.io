@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>如何处理Windows下的CUDA和人脸识别 | 中原之星★记录西皮星</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://page.cpstar.cn/favicon.ico?v=1728103215812">
+<link rel="stylesheet" href="https://page.cpstar.cn/styles/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="想在Windows体系下好好开发，那第一件事情建立环境，而这个环境，你来告诉我微软家的体系，应该用谁家提供的环境？Visual Studio搞起吧！
+
+事出有因
+一个朋友要搞人脸识别，Python当然首当其冲，face-recognitio..." />
+    <meta name="keywords" content="干活,码农" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://page.cpstar.cn">
+        <img src="https://page.cpstar.cn/images/avatar.png?v=1728103215812" class="site-logo">
+        <h1 class="site-title">中原之星★记录西皮星</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/VZr6i90oH/" class="site-nav">
+            迷火车
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="site-nav">
+            迷代码
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/5_fCQ8_55/" class="site-nav">
+            迷星空
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="site-nav">
+            迷实地
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/cpstar/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      记录Central Plain Star
+    </div>
+    <div class="site-footer">
+      All rights with CPStar
+Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br/>
+<a href="http://www.beian.miit.gov.cn/">京ICP备20007959号</a> | <a class="rss" href="https://page.cpstar.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">如何处理Windows下的CUDA和人脸识别</h2>
+            <div class="post-date">2019-11-15</div>
+            
+              <div class="feature-container" style="background-image: url('https://page.cpstar.cn/post-images/ru-he-chu-li-windows-xia-de-cuda-he-ren-lian-shi-bie.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>想在Windows体系下好好开发，那第一件事情建立环境，而这个环境，你来告诉我微软家的体系，应该用谁家提供的环境？Visual Studio搞起吧！</p>
+<!-- more -->
+<h2 id="事出有因">事出有因</h2>
+<p>一个朋友要搞人脸识别，Python当然首当其冲，face-recognition库调用一下，轻松搞定。但是这个库，需要一些基础组件。在普通情况下，pip install一波，一切OK，唯一的缺点就是纯靠CPU进行大量的运算，这事绝对不科学。<br>
+既然咱有N家显卡，那必须CUDA走起啊。所以搞定CUDA，搞定GPU运算。于是问题就来了。</p>
+<h2 id="差强人意">差强人意</h2>
+<p>手上的GTX1080肯定是要玩游戏的，玩游戏肯定还是Windows的。那最简单的方式当然是在Windows里直接搞喽，难道找块硬盘装个Linux。既然咱是Windows 10，subliunx走一个，那真是一顿操作猛如虎，朋友的代码确实工作了，可是放着我这E5 1620 v3的4个真核，您就一个核吭哧吭哧。所以，不行，搞CUDA。然后又是一顿操作猛如虎，怎么搞都搞不起来。因为face-recognition用到的其他库，溯源用到了dlib，用CUDA也是要靠dlib走。安装CUDA-windows的包，能干的都干了。最后从某乎获得了“满意”的答案，认证为微软工程师的某位直接回答，sublinux就没写CUDA的驱动。额，sublinux，您就纯纯地面上还行，用这两天的一个词叫“差强人意”。</p>
+<h2 id="正规军">正规军</h2>
+<p>所以还要回到原生Windows中来搞，去微软市场把Python搞下来，然后搞各种库，嗯，这是正规军。于是找了几篇文章，结果又跑偏到了Anaconda上，没关系，反正都是Python，下一步就是外挂扩展库。前边说了dlib，为了保准能够DLIB_USE_CUDA，最好的方式是自己编译。接下来惊心动魄的时刻到了。</p>
+<h2 id="吐槽nv">吐槽NV</h2>
+<p>中间插一句。这个CUDA，要安装两个东西，CUDA基本包和CUDNN。前者除了尺寸略大，一路顺利；后者则比较怪异了，实际弄下来只是三个基本文件，丁点大，但是要想获得，您可得一路注册加喜好选择。</p>
+<h2 id="摔桌子">摔桌子</h2>
+<p>编啊编。为什么搞Anaconda呢，一方面Windows市场的Python会遇到权限问题，WindowsApps目录的权限非强小；另一方面既然跑偏到Anaconda上了，那就继续吧（实际上，当时脑袋迷糊，不知道什么是Anaconda）。然后既然编译，记得曾经在sublinux中编的时候，说要搞cmake，来来来，都弄。<br>
+燃鹅。。。如下。。。</p>
+<pre><code>  Generator
+    NMake Makefiles
+  does not support platform specification, but platform
+    x64
+  was specified.
+CMake Error: CMAKE_C_COMPILER not set, after EnableLanguage
+CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage
+</code></pre>
+<p>表面上，很像是缺少x64，或者平台不支持x64，而且各种segmentfaul之类的论坛也都没说关键的地方。折腾了若干时间后，我才弄明白，实际上，最核心的错误是最下边的两句，没有编译器。因为这个问题在即便是sublinux环境下也是不存在的，所以到了Windows那真是一脸懵逼。<br>
+编译器么，找linux体系下对应的windows编译，于是追溯出了MinGW。再走一波环境变量、加载路径的设置，可算是能够开始编译了，结果又报了一条错误，MinGW无法编译CUDA。😩<br>
+Finally，找到了这个：<a href="https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html#system-requirements">CUDA Installation Guide for Microsoft Windows</a>，尼玛，CUDA在Windows下仅支持VisualStudio相关版本编译。实际上，在前述碰壁的过程中，也有一些地方提到要到Visual Studio的shell中去编译，以保证环境变量没有问题。但是面对庞杂的Visual Studio体系，我一开始是完全拒绝的，有GNU的方式，就争取用GNU的方式替代。结果，看来我是绕不开这个弯弯了。装吧。</p>
+<h2 id="没事了">没事了</h2>
+<p><strong>完全安装完成</strong>。跑那段人脸识别的实验程序，在跑单核CPU的情况下，反正一个半小时没有搞出来，而现在基本精确测量，需要1分10秒。</p>
+<h1 id="总结">总结</h1>
+<p>Windows用于开发最大的问题就是：Windows本身是一个成熟的发布系统，按照闭源原则，由开发者在自己的体系中编译完成最终的程序，发布给用户使用，Windows则提供同样编译完成的各种链接库等组件支持。注意，这个环境完全是编译完成的环境，所以不具备再次编译的能力。<br>
+而Unix-like的操作系统，本身可能是开源的或者其他可能，更像是个半成品或者准确点叫半产品，普遍情况下需要本地编译对代码（而不是程序）进行本地化处理，所以什么gcc等，是随着系统一起发不出去的，那么如果遇到了各种需要编译的，直接本地make、compile一顿操作猛如虎，同时还能get。<br>
+那么要想在Windows环境下搞这个，来吧，先搞环境，比如本事件中的Visual Studio，绕不过去的。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="tag">
+                    干活
+                  </a>
+                
+                  <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="tag">
+                    码农
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://page.cpstar.cn/post/zi-ji-zhi-zuo-yi-ge-hua-shuo-ac68u-lu-you-qi-de-jiao-ben/">
+                  <h3 class="post-title">
+                    自己制作一个华硕AC68U路由器的脚本
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>自己制作一个华硕AC68U路由器的脚本 | 中原之星★记录西皮星</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://page.cpstar.cn/favicon.ico?v=1728103215812">
+<link rel="stylesheet" href="https://page.cpstar.cn/styles/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="华硕AC68U路由器比较强大，带有一个800MHz的小芯片，能够处理一些东西，当然，纯论性能的，还是稍微差点意思的。相关信息请自行寻找。
+基于其较强的能力，可以在外接了硬盘的情况下，自定义一些脚本并且执行。比如我定制了自动更新阿里云DNS解..." />
+    <meta name="keywords" content="干活,码农" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://page.cpstar.cn">
+        <img src="https://page.cpstar.cn/images/avatar.png?v=1728103215812" class="site-logo">
+        <h1 class="site-title">中原之星★记录西皮星</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/VZr6i90oH/" class="site-nav">
+            迷火车
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="site-nav">
+            迷代码
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/5_fCQ8_55/" class="site-nav">
+            迷星空
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="site-nav">
+            迷实地
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/cpstar/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      记录Central Plain Star
+    </div>
+    <div class="site-footer">
+      All rights with CPStar
+Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br/>
+<a href="http://www.beian.miit.gov.cn/">京ICP备20007959号</a> | <a class="rss" href="https://page.cpstar.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">自己制作一个华硕AC68U路由器的脚本</h2>
+            <div class="post-date">2019-06-29</div>
+            
+              <div class="feature-container" style="background-image: url('https://page.cpstar.cn/post-images/zi-ji-zhi-zuo-yi-ge-hua-shuo-ac68u-lu-you-qi-de-jiao-ben.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>华硕AC68U路由器比较强大，带有一个800MHz的小芯片，能够处理一些东西，当然，纯论性能的，还是稍微差点意思的。相关信息请自行寻找。<br>
+基于其较强的能力，可以在外接了硬盘的情况下，自定义一些脚本并且执行。比如我定制了自动更新阿里云DNS解析的脚本，实现了动态域名的效果。但是由于其本身体系的完备性，所以经过一系列摸索，实现了脚本的自动执行。<br>
+对了，我用的是标准官方ROM，并没有刷tomato、potato什么的。</p>
+<h3 id="配置脚本">配置脚本</h3>
+<p>第一个，写一个脚本，这个脚本需要具备几个基本的参数执行，比如start、firewall-start、stop，其中的第二个比较重要，经过观察log，start可能会启动的时候执行一次，firewall-start则会多次执行，典型的情况，路由器外网掉线重连，获取了新的外网IP，然后防火墙（iptables）清空，并执行一遍重建。所以涉及到防火墙、或者外网IP变动的，最好实现这个参数。</p>
+<h3 id="配置自动运行">配置自动运行</h3>
+<p>上述的脚本，自动运行，路由器的配置是有一套标准的。找了一圈，最后发现在/opt/lib/ipkg/info下，有一个.control文件来控制。这个文件实际上是ipkg（路由器三方应用的安装模式）的附属品，标准控制程序会检测某个脚本的存在，并且来这里查询.control文件中是否有Enabled，然后调用脚本以及传入相应参数。</p>
+<h3 id="总结">总结</h3>
+<p>比如我们新建了一个ABC应用。首先把脚本放在</p>
+<pre><code>/opt/etc/init.d/S50ABC.sh
+</code></pre>
+<p>然后在写一个控制文件放在</p>
+<pre><code>/opt/lib/ipkg/info/ABC.sh
+</code></pre>
+<p>应该有至少一条内容是</p>
+<pre><code>Enabled = 1
+</code></pre>
+<p>完成！</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="tag">
+                    干活
+                  </a>
+                
+                  <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="tag">
+                    码农
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://page.cpstar.cn/post/liao-liao-zhong-guo-tie-lu-ji-che-che-liang-bian-hao/">
+                  <h3 class="post-title">
+                    聊聊中国铁路机车车辆编号
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

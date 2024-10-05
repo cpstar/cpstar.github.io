@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>做一回码农梦想的Hacker | 中原之星★记录西皮星</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://page.cpstar.cn/favicon.ico?v=1728103215812">
+<link rel="stylesheet" href="https://page.cpstar.cn/styles/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="题图来自网络搜索
+每个码农应该都有一个梦想，面对黑底绿字的屏幕，手指飞快地敲下每一个按键，随着进度条的加载，系统被攻破——电影里都这么演。但回到现实中，虽然黑底绿字的屏幕还在，键盘的敲动可能会是时有时无，但是那个进度条对应的是compile..." />
+    <meta name="keywords" content="干活,码农" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://page.cpstar.cn">
+        <img src="https://page.cpstar.cn/images/avatar.png?v=1728103215812" class="site-logo">
+        <h1 class="site-title">中原之星★记录西皮星</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/VZr6i90oH/" class="site-nav">
+            迷火车
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="site-nav">
+            迷代码
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/5_fCQ8_55/" class="site-nav">
+            迷星空
+          </a>
+        
+      
+        
+          <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="site-nav">
+            迷实地
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/cpstar/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      记录Central Plain Star
+    </div>
+    <div class="site-footer">
+      All rights with CPStar
+Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br/>
+<a href="http://www.beian.miit.gov.cn/">京ICP备20007959号</a> | <a class="rss" href="https://page.cpstar.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">做一回码农梦想的Hacker</h2>
+            <div class="post-date">2020-02-29</div>
+            
+              <div class="feature-container" style="background-image: url('https://page.cpstar.cn/post-images/zuo-yi-hui-ma-nong-meng-xiang-de-hacker.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p><em>题图来自网络搜索</em></p>
+<p>每个码农应该都有一个梦想，面对黑底绿字的屏幕，手指飞快地敲下每一个按键，随着进度条的加载，系统被攻破——电影里都这么演。但回到现实中，虽然黑底绿字的屏幕还在，键盘的敲动可能会是时有时无，但是那个进度条对应的是compile进程，除了WARN甚至还会有ERROR，而且恐怕很少有人会对着二进制代码进行修改，汇编语言、BINARY已经是上古时期的东西了。于是，这种很底层的活儿，对码农来讲，是一个梦想，也是一个笑谈，虽然觉得很高深，但也觉得没必要。真的么？</p>
+<!-- more -->
+<h2 id="背景情况">背景情况</h2>
+<p>手上有一套与工作有关的平台软件，采用小应用的方式提供应用服务，而平台有一套机制来保证应用授权使用。平台采用Java语言编写，部分核心代码经过了混淆。<br>
+其实并不是故意要破坏版权，只是正好分析一下这个平台的保护措施，以及验证自己的想法和做法。</p>
+<h2 id="程序分析">程序分析</h2>
+<p>通过后台报的错误trace，基本确定了调用路径：平台应用可以使用的判定方法大概是调用授权库，获取这个应用的授权过期时间，然后跟系统时间做对比，或者如果应用是永久授权，则返回NULL。所以如果能够无论哪个APP都返回NULL，那岂不搞定了？（或者说这里算是这个平台的一个漏洞？）<br>
+这些类实际上都经过了混淆，如果按照传统Java的套路——反编译、重写、编译——肯定是不行的。那还有什么办法么？那这就要看你的知识量了。<br>
+每个Java源程序都会编译成遵循JVM指令集的Java Bytecode（Groovy等其他各类能在JVM上运行的语言方式等同），包含在每个.class文件中。而此刻，大学学习的<strong>汇编语言</strong>功底，研究生毕业设计的<strong>JVM研究</strong>积累的知识，让我觉得，好像有些事情并不会复杂。<br>
+此处一句感受：大学期间学习的一些课程看似没用，但也许说不定哪天他就开始为你服务了，所以不要错过任何一个时刻。</p>
+<h2 id="动手试试">动手试试</h2>
+<p>如果想要从Bytecode层面“黑”一个程序，总得知道你要修改的东西在哪吧，然后第一件事情需要搞清楚.class文件的结构。赶紧翻开当年的毕业设计论文，找到了这张图，似乎当年还是自己一点一点画出来的。<br>
+<img src="https://page.cpstar.cn/post-images/1582963935917.png" alt="" loading="lazy"><br>
+然后打开那个需要处理的.class文件，暂且称呼为<em>倒霉蛋</em>吧，除了MAGICWORD然后各种基本信息之后，开始为常量池，按照规则把二进制复制出来，开始规整化常量池，为了后边的引用方便，一个一个吭哧，弄到大概170个左右的时候，看了一眼常量池的总长度，六百多呢，这wo方gan法bu不xia行qu了。<br>
+算了还是直接分析指令集吧。看看反编译出的代码，看看可视化的bytecode指令，然后找对应的二进制码。好在根据前后指令，最终确定了那段指令的位置。相关代码如下。</p>
+<pre><code>反编译代码：
+public static Timestamp DaoMeiDan(String arg0) throws XXXException {
+    if (isMosiacFunc(arg0)) { //调用本类另外一方法判断平台应用是否基本合法，方法名已打码
+        return null;
+    } else if (---) {---} //其他代码
+</code></pre>
+<pre><code>对应的bytecode：
+public static DaoMeiDan(java.lang.String arg0) throws XXXException { //(Ljava/lang/String;)Ljava/sql/Timestamp; //类基本描述，后边写明了参数类型和返回类型
+    &lt;localVar:index=0 , name=arg0 , desc=Ljava/lang/String;, sig=null, start=L1, end=L2&gt; //方法的本地变量池等
+    L1 { //从此处开始
+        aload0 //从本地变量池0位置读取索引并压栈
+        invokestatic isMosiacFunc(Ljava/lang/String;)Z //调用本类的另外一个方法
+        ifeq L3 //是否等于0，等于则跳转往L3位置
+    }
+    L4 {
+        aconst_null //压栈一个NULL
+        areturn //返回
+        pop //弹栈
+    }
+    L3 {
+        --- //其他代码
+    }
+</code></pre>
+<pre><code>对应的二进制码：
+---/2A/B8 xxxx/99 0006/01/B0/57/---
+用斜杠分割了每个指令，用空格分割了指令和操作数
+</code></pre>
+<p>然后研究一下机理，如果无论那个isMosiacFunc返回什么值（方法应当返回true或false）都能执行L4而不往L3跳转不就实现了么？！而且不改变.class文件结构，最好就是变化指令。那么，在机器层面，true和false的判断实际上就是零与非零（或者0与1）的判断，所以使用了ifeq指令，但无论如何true和false不可能出现负值，那咱们就判断是否小于零？！iflt走一波，iflt的指令二进制是9B。<br>
+于是成果如下：<br>
+<img src="https://page.cpstar.cn/post-images/1582967125029.png" alt="" loading="lazy"><br>
+<img src="https://page.cpstar.cn/post-images/1582968480946.png" alt="" loading="lazy"><br>
+很明显反编译出来的代码，用一个boolean去判断大于等于0，估计这在IDE里边肯定报错，但是底层确实合理合法的。<br>
+最后重新加载这个类，实现了所想所需，达到了目的。</p>
+<h2 id="总结">总结</h2>
+<p>个人觉得，一个合格的码农，不单是自己写的代码能够顺利运行，而且用最简洁的写法实现要求，更需要一种阅读能力，阅读别人代码、反演他的思路的能力。也许我是在当年九星论坛被逼学写PHP（玩之前根本没用过PHP）培养的，然后在如今工作需要进一步强化，现在是不急不躁慢慢开别人的代码。或许CHEN老师说得对，别人的话都不信，只有自己的探究才能完全相信，直到自己亲自测试出来。<br>
+最后，今天恰逢四年一遇的29日，特此纪念。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://page.cpstar.cn/tag/tUEn37R--/" class="tag">
+                    干活
+                  </a>
+                
+                  <a href="https://page.cpstar.cn/tag/z-msk1pr2/" class="tag">
+                    码农
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://page.cpstar.cn/post/gao-yi-ge-tie-lu-xin-hao-jin-lu-diao-du-you-xi/">
+                  <h3 class="post-title">
+                    搞一个铁路信号进路调度游戏？
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
